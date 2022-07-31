@@ -37,6 +37,23 @@ function main() {
 
   const openIconName = "template-plugin-open";
 
+  console.log('ahahahah')
+  logseq.App.onBlockRendererSlotted((e) => {
+    console.log('block re', e)
+  });
+
+  logseq.App.onMacroRendererSlotted(({ slot, payload }) => {
+    let [type, text, color] = payload.arguments;
+    console.log(payload)
+    if (type !== ":h1") return;
+    logseq.provideUI({
+      key: "h1-playground",
+      slot,
+      template: `
+      <h2 style="color: ${color || "red"}">${text}</h2>
+     `,
+    });
+  });
   logseq.provideStyle(css`
     .${openIconName} {
       opacity: 0.55;
